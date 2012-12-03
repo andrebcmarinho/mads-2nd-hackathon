@@ -18,10 +18,15 @@
         <pathelement location="bin"/>
         <path refid="JUnit 4.libraryclasspath"/>
     </path>
-    <target name="test">
+    <target name="init">
         <mkdir dir="bin"/>
         <copy includeemptydirs="false" todir="bin">
             <fileset dir="src">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="test">
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>
@@ -36,6 +41,7 @@
         <echo message="${ant.project.name}: ${ant.file}"/>
         <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
             <src path="src"/>
+            <src path="test"/>
             <classpath refid="MADS-2nd-hackathon.classpath"/>
         </javac>
     </target>
@@ -53,7 +59,15 @@
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
     </target>
-    <target name="testeHome">
+    <target name="test">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="test.testeHome" todir="${junit.output.dir}"/>
+            <classpath refid="MADS-2nd-hackathon.classpath"/>
+        </junit>
+    </target>
+    <target name="testeHome (1)">
         <mkdir dir="${junit.output.dir}"/>
         <junit fork="yes" printsummary="withOutAndErr">
             <formatter type="xml"/>
